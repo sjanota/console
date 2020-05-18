@@ -17,7 +17,7 @@ export const CompassGqlContext = React.createContext(null);
 
 preloadingStrategy(async () => {
   ReactDOM.render(
-    <Application>
+    <Application env={process.env}>
       <ApolloClientProvider createClient={createKymaApolloClient}>
         <ApolloClientProvider
           createClient={createCompassApolloClient}

@@ -4,7 +4,7 @@ import { NotificationProvider } from './NotificationContext';
 import { MicrofrontendContextProvider } from './MicrofrontendContext';
 
 const withProvider = Provider => Component => props => (
-  <Provider>
+  <Provider {...props}>
     <Component {...props} />
   </Provider>
 );

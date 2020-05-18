@@ -121,9 +121,7 @@ export const ApolloClientProvider = ({ children, createClient, provider }) => {
   const { fromConfig } = useConfig();
   const [client, setClient] = useState(null);
 
-  console.log('render', context.idToken);
   useEffect(() => {
-    console.log('createClient', context.idToken);
     const client = createClient(fromConfig, context.idToken);
     setClient(client);
     return () => {

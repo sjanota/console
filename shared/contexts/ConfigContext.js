@@ -15,13 +15,8 @@ export const configFromEnvVariables = (env, prefix, fallback = {}) =>
 
 const fromConfig = clusterConfig => endpoint => clusterConfig[endpoint];
 
-export const ConfigProvider = ({ children, prefix = DEFAULT_PREFIX }) => {
-  const config = configFromEnvVariables(
-    process.env,
-    prefix,
-    window.clusterConfig,
-  );
-  console.log(config);
+export const ConfigProvider = ({ env, children, prefix = DEFAULT_PREFIX }) => {
+  const config = configFromEnvVariables(env, prefix, window.clusterConfig);
   return (
     <ConfigContext.Provider value={{ fromConfig: fromConfig(config) }}>
       {children}
