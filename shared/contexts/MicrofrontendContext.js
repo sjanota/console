@@ -4,11 +4,18 @@ import LuigiClient from '@kyma-project/luigi-client';
 export const MicrofrontendContext = createContext({});
 
 export function MicrofrontendContextProvider({ children }) {
-  const [context, setContext] = useState(LuigiClient.getContext());
+  const [context, setContext] = useState({});
+
+  const setContextAndLog = tag => ctx => {
+    // console.log(tag, ctx);
+    setContext(ctx);
+  };
 
   useEffect(() => {
-    const initHandle = LuigiClient.addInitListener(setContext);
-    const updateHandle = LuigiClient.addContextUpdateListener(setContext);
+    const initHandle = LuigiClient.addInitListener(setContextAndLog('init'));
+    const updateHandle = LuigiClient.addContextUpdateListener(
+      setContextAndLog('update'),
+    );
 
     return () => {
       LuigiClient.removeContextUpdateListener(updateHandle);
@@ -33,9 +40,3 @@ export function useModuleEnabled(module) {
 export function useMicrofrontendContext() {
   return useContext(MicrofrontendContext);
 }
-
-export const withMicrofrontendContext = Component => props => (
-  <MicrofrontendContextProvider.Consumer>
-    {value => <Component {...props} context={value} />}
-  </MicrofrontendContextProvider.Consumer>
-);

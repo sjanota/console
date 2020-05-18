@@ -6,14 +6,17 @@ import {
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import { split } from 'apollo-link';
-import { getApiUrl as getURL } from '@kyma-project/common';
 
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import React, { useEffect, useState } from 'react';
 import { ApolloProvider } from 'react-apollo';
-import { useMicrofrontendContext, isSubscriptionOperation } from 'react-shared';
+import {
+  useMicrofrontendContext,
+  isSubscriptionOperation,
+  useConfig,
+} from 'react-shared';
 
 const errorLink = onError(
   ({ operation, response, graphQLErrors, networkError }) => {
@@ -31,7 +34,22 @@ const errorLink = onError(
   },
 );
 
-export function createCompassApolloClient(token) {
+const modifyHeaders = ops =>
+  setContext((_, { oldHeaders }) => ({
+    headers: ops.reduce((acc, op) => op(acc), oldHeaders),
+  }));
+
+const setHeader = (header, value) => headers => ({
+  ...headers,
+  [header]: value,
+});
+
+const setAuthorizationHeader = token =>
+  setHeader('authorization', `bearer ${token}`);
+
+const setTenantHeader = tenant => setHeader('tenant', tenant ? tenant : null);
+
+export function createCompassApolloClient(fromConfig, token) {
   const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData: {
       __schema: {
@@ -40,8 +58,8 @@ export function createCompassApolloClient(token) {
     },
   });
 
-  const graphqlApiUrl = getURL('compassApiUrl');
-  const tenant = getURL('compassDefaultTenant');
+  const graphqlApiUrl = fromConfig('compassApiUrl');
+  const tenant = fromConfig('compassDefaultTenant');
 
   const httpLink = createHttpLink({
     uri: graphqlApiUrl,
@@ -63,12 +81,12 @@ export function createCompassApolloClient(token) {
   });
 }
 
-export function createKymaApolloClient(token) {
+export function createKymaApolloClient(fromConfig, token) {
   if (!token) {
     return null;
   }
 
-  const graphqlApiUrl = getURL(
+  const graphqlApiUrl = fromConfig(
     process.env.REACT_APP_LOCAL_API ? 'graphqlApiUrlLocal' : 'graphqlApiUrl',
   );
 
@@ -81,7 +99,7 @@ export function createKymaApolloClient(token) {
 
   const wsLink = new WebSocketLink({
     token,
-    uri: getURL('subscriptionsApiUrl'),
+    uri: fromConfig('subscriptionsApiUrl'),
     options: {
       reconnect: true,
     },
@@ -98,27 +116,15 @@ export function createKymaApolloClient(token) {
   });
 }
 
-const modifyHeaders = ops =>
-  setContext((_, { oldHeaders }) => ({
-    headers: ops.reduce((acc, op) => op(acc), oldHeaders),
-  }));
-
-const setHeader = (header, value) => headers => ({
-  ...headers,
-  [header]: value,
-});
-
-const setAuthorizationHeader = token =>
-  setHeader('authorization', `bearer ${token}`);
-
-const setTenantHeader = tenant => setHeader('tenant', tenant ? tenant : null);
-
 export const ApolloClientProvider = ({ children, createClient, provider }) => {
   const context = useMicrofrontendContext();
+  const { fromConfig } = useConfig();
   const [client, setClient] = useState(null);
 
+  console.log('render', context.idToken);
   useEffect(() => {
-    const client = createClient(context.idToken);
+    console.log('createClient', context.idToken);
+    const client = createClient(fromConfig, context.idToken);
     setClient(client);
     return () => {
       try {
@@ -126,7 +132,7 @@ export const ApolloClientProvider = ({ children, createClient, provider }) => {
       } finally {
       }
     };
-  }, [context.idToken, createClient, setClient]);
+  }, [context.idToken, createClient, setClient, fromConfig]);
 
   const Provider = provider ? provider : ApolloProvider;
   return client && <Provider client={client}>{children}</Provider>;
