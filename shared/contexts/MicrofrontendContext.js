@@ -1,42 +1,22 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import LuigiClient from '@kyma-project/luigi-client';
-import { isEqual } from 'lodash';
 
 export const MicrofrontendContext = createContext({});
 
-const watchedProperties = [
-  'tenantId',
-  'idToken',
-  'backendModules',
-  'showSystemNamespaces',
-];
-
-const hasPropertyChanged = (context, newContext) => {
-  return (
-    newContext &&
-    watchedProperties.some(
-      property => !isEqual(newContext[property], context[property]),
-    )
-  );
-};
-
-const updateContext = newContext => context =>
-  hasPropertyChanged(context, newContext) ? newContext : context;
-
 export function MicrofrontendContextProvider({ children }) {
-  const [context, setContext] = useState({});
+  const [context, setContext] = useState(LuigiClient.getContext());
 
   useEffect(() => {
-    const callback = ctx => setContext(updateContext(ctx));
-
-    const initHandle = LuigiClient.addInitListener(callback);
-    const updateHandle = LuigiClient.addContextUpdateListener(callback);
+    const initHandle = LuigiClient.addInitListener(setContext);
+    const updateHandle = LuigiClient.addContextUpdateListener(setContext);
 
     return () => {
       LuigiClient.removeContextUpdateListener(updateHandle);
       LuigiClient.removeInitListener(initHandle);
     };
   }, []);
+
+  console.log(context);
 
   return (
     <MicrofrontendContext.Provider value={context}>
