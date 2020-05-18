@@ -14,6 +14,11 @@ import {
 } from './apollo';
 
 export const CompassGqlContext = React.createContext(null);
+const CompassGqlProvider = ({ client, children }) => (
+  <CompassGqlContext.Provider value={client}>
+    {children}
+  </CompassGqlContext.Provider>
+);
 
 preloadingStrategy(async () => {
   ReactDOM.render(
@@ -21,7 +26,7 @@ preloadingStrategy(async () => {
       <ApolloClientProvider createClient={createKymaApolloClient}>
         <ApolloClientProvider
           createClient={createCompassApolloClient}
-          provider={CompassGqlContext.Provider}
+          provider={CompassGqlProvider}
         >
           <BrowserRouter>
             <App />

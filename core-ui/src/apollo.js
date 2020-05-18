@@ -44,10 +44,9 @@ const setHeader = (header, value) => headers => ({
   [header]: value,
 });
 
-const setAuthorizationHeader = token =>
-  setHeader('authorization', `bearer ${token}`);
+const setAuthorization = token => setHeader('authorization', `bearer ${token}`);
 
-const setTenantHeader = tenant => setHeader('tenant', tenant ? tenant : null);
+const setTenant = tenant => setHeader('tenant', tenant ? tenant : null);
 
 export function createCompassApolloClient(fromConfig, token) {
   const fragmentMatcher = new IntrospectionFragmentMatcher({
@@ -59,16 +58,14 @@ export function createCompassApolloClient(fromConfig, token) {
   });
 
   const graphqlApiUrl = fromConfig('compassApiUrl');
+  console.log(graphqlApiUrl);
   const tenant = fromConfig('compassDefaultTenant');
 
   const httpLink = createHttpLink({
     uri: graphqlApiUrl,
   });
 
-  const authLink = modifyHeaders([
-    setAuthorizationHeader(token),
-    setTenantHeader(tenant),
-  ]);
+  const authLink = modifyHeaders([setAuthorization(token), setTenant(tenant)]);
   const authHttpLink = authLink.concat(httpLink);
 
   return new ApolloClient({
@@ -82,10 +79,6 @@ export function createCompassApolloClient(fromConfig, token) {
 }
 
 export function createKymaApolloClient(fromConfig, token) {
-  if (!token) {
-    return null;
-  }
-
   const graphqlApiUrl = fromConfig(
     process.env.REACT_APP_LOCAL_API ? 'graphqlApiUrlLocal' : 'graphqlApiUrl',
   );
@@ -94,7 +87,7 @@ export function createKymaApolloClient(fromConfig, token) {
     uri: graphqlApiUrl,
   });
 
-  const authLink = modifyHeaders([setAuthorizationHeader(token)]);
+  const authLink = modifyHeaders([setAuthorization(token)]);
   const authHttpLink = authLink.concat(httpLink);
 
   const wsLink = new WebSocketLink({
@@ -122,6 +115,9 @@ export const ApolloClientProvider = ({ children, createClient, provider }) => {
   const [client, setClient] = useState(null);
 
   useEffect(() => {
+    if (!context.idToken) {
+      return;
+    }
     const client = createClient(fromConfig, context.idToken);
     setClient(client);
     return () => {
