@@ -22,9 +22,9 @@ export { TextFormItem } from './components/TextFormItem/TextFormItem';
 
 export * from './forms';
 export * from './hooks';
-export * from './contexts/ApplicationContext';
-export * from './utils/apollo';
+export * from './contexts/MicrofrontendContext';
 export * from './contexts/NotificationContext';
+export * from './utils/apollo';
 export * from './components/GenericList/actionHandlers/simpleDelete';
 export * from './components/CredentialForms';
 export * from './constants/constants';
