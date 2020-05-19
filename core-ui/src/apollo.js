@@ -34,9 +34,9 @@ const errorLink = onError(
   },
 );
 
-const modifyHeaders = ops =>
+const modifyHeaders = modifiers =>
   setContext((_, { oldHeaders }) => ({
-    headers: ops.reduce((acc, op) => op(acc), oldHeaders),
+    headers: modifiers.reduce((acc, m) => m(acc), oldHeaders),
   }));
 
 const setHeader = (header, value) => headers => ({
