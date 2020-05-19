@@ -25,7 +25,7 @@ export * from './hooks';
 export * from './contexts/MicrofrontendContext';
 export * from './contexts/ConfigContext';
 export * from './contexts/NotificationContext';
-export * from './contexts/Application';
+export * from './contexts/Microfrontend';
 export * from './utils/apollo';
 export * from './components/GenericList/actionHandlers/simpleDelete';
 export * from './components/CredentialForms';

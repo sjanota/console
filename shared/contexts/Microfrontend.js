@@ -9,7 +9,7 @@ const withProvider = Provider => Component => props => (
   </Provider>
 );
 
-export const Application = [
+export const Microfrontend = [
   MicrofrontendContextProvider,
   ConfigProvider,
   NotificationProvider,

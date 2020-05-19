@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { preloadingStrategy } from '@kyma-project/common';
 import './index.scss';
 import App from './components/App/App';
-import { Application } from 'react-shared';
+import { Microfrontend } from 'react-shared';
 
 import {
   ApolloClientProvider,
@@ -22,7 +22,7 @@ const CompassGqlProvider = ({ client, children }) => (
 
 preloadingStrategy(async () => {
   ReactDOM.render(
-    <Application env={process.env}>
+    <Microfrontend env={process.env}>
       <ApolloClientProvider createClient={createKymaApolloClient}>
         <ApolloClientProvider
           createClient={createCompassApolloClient}
@@ -33,7 +33,7 @@ preloadingStrategy(async () => {
           </BrowserRouter>
         </ApolloClientProvider>
       </ApolloClientProvider>
-    </Application>,
+    </Microfrontend>,
     document.getElementById('root'),
   );
 });
