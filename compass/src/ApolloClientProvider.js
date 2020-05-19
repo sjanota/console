@@ -1,18 +1,15 @@
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { createApolloClient } from './store';
-import { useApplicationContext } from 'react-shared';
+import { useMicrofrontendContext } from 'react-shared';
 
 export const ApolloClientProvider = ({ children }) => {
-  const context = useApplicationContext();
-
-  const getTenantId = () => context.tenantId;
-  const getToken = () => `Bearer ${context.idToken}`;
+  const { tenantId, idToken } = useMicrofrontendContext();
 
   if (!Object.keys(context).length) {
     return <p>Loading...</p>;
   }
 
-  const client = createApolloClient(getTenantId(), getToken());
+  const client = createApolloClient(tenantId, idToken);
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };
