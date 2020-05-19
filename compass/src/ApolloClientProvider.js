@@ -6,7 +6,7 @@ import { useMicrofrontendContext } from 'react-shared';
 export const ApolloClientProvider = ({ children }) => {
   const { tenantId, idToken } = useMicrofrontendContext();
 
-  if (!Object.keys(context).length) {
+  if (!idToken) {
     return <p>Loading...</p>;
   }
 
