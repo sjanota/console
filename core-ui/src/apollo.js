@@ -119,12 +119,7 @@ export const ApolloClientProvider = ({ children, createClient, provider }) => {
     }
     const client = createClient(fromConfig, context.idToken);
     setClient(client);
-    return () => {
-      try {
-        client && client.stop();
-      } finally {
-      }
-    };
+    return () => client.stop();
   }, [context.idToken, createClient, setClient, fromConfig]);
 
   const Provider = provider ? provider : ApolloProvider;
