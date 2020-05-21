@@ -31,7 +31,7 @@ export function createApolloClient(tenant, token) {
   const authLink = setContext((_, { headers }) => {
     const headersVal = {
       ...headers,
-      authorization: token,
+      authorization: `Bearer ${token}`,
     };
     if (tenant && tenant !== '') {
       headersVal.tenant = tenant;

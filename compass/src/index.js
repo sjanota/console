@@ -7,7 +7,7 @@ import { ApolloClientProvider } from './ApolloClientProvider';
 
 (async () => {
   ReactDOM.render(
-    <Microfrontend>
+    <Microfrontend env={process.env}>
       <ApolloClientProvider>
         <App />
       </ApolloClientProvider>
