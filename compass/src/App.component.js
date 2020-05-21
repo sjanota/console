@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Notification } from '@kyma-project/react-components';
-import { NotificationProvider } from 'react-shared';
 
 import './App.scss';
 import Overview from './components/Overview/Overview';

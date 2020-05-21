@@ -23,8 +23,9 @@ const mocks = [
   },
 ];
 
-jest.mock('../../store/getConfigValue', () => ({
-  getConfigValue: item => true,
+jest.mock('react-shared', () => ({
+  ...jest.requireActual('react-shared'),
+  ConfigContext: { fromConfig: () => true },
 }));
 
 describe('Applications', () => {
