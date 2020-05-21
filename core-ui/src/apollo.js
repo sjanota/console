@@ -58,7 +58,6 @@ export function createCompassApolloClient(fromConfig, token) {
   });
 
   const graphqlApiUrl = fromConfig('compassApiUrl');
-  console.log(graphqlApiUrl);
   const tenant = fromConfig('compassDefaultTenant');
 
   const httpLink = createHttpLink({
