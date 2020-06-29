@@ -1,6 +1,8 @@
 import processNodeForLocalDevelopment from './local-development-node-converter';
 import { hideByNodeCategory } from './navigation-helpers';
 
+import { compose, ifElse } from 'ramda';
+
 function buildNode(node, spec, config, groups) {
   var n = {
     label: node.label,
@@ -38,8 +40,6 @@ function buildNode(node, spec, config, groups) {
   }
   return n;
 }
-
-const navigationPathSegments = specNode => specNode.navigationPath.split('/')
 
 function buildNodeWithChildren(specNode, spec, config, groups) {
   var parentNodeSegments = specNode.navigationPath.split('/');
