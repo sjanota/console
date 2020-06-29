@@ -39,6 +39,8 @@ function buildNode(node, spec, config, groups) {
   return n;
 }
 
+const navigationPathSegments = specNode => specNode.navigationPath.split('/')
+
 function buildNodeWithChildren(specNode, spec, config, groups) {
   var parentNodeSegments = specNode.navigationPath.split('/');
   var children = getDirectChildren(parentNodeSegments, spec, config, groups);

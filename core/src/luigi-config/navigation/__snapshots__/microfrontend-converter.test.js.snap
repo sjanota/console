@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`microfrontend-converter is backwards compatible 1`] = `
+Array [
+  Object {
+    "category": "Development",
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "context": Object {
+              "groups": undefined,
+              "requiredBackendModules": undefined,
+              "settings": Object {},
+            },
+            "hideFromNav": true,
+            "label": "Function Details",
+            "order": 0,
+            "pathSegment": ":lambda",
+            "requiredPermissions": Array [],
+            "viewUrl": "https://core-ui.testowy.hasselhoff.ga/lambda/:lambda",
+          },
+        ],
+        "context": Object {
+          "groups": undefined,
+          "requiredBackendModules": undefined,
+          "settings": Object {},
+        },
+        "hideFromNav": true,
+        "label": "Functions",
+        "order": 0,
+        "pathSegment": "details",
+        "requiredPermissions": Array [],
+        "viewUrl": "https://core-ui.testowy.hasselhoff.ga/lambdas",
+      },
+    ],
+    "context": Object {
+      "groups": undefined,
+      "requiredBackendModules": undefined,
+      "settings": Object {},
+    },
+    "hideFromNav": false,
+    "keepSelectedForChildren": true,
+    "label": "Functions",
+    "navigationContext": "serverless",
+    "order": 1,
+    "pathSegment": "cmf-functions",
+    "requiredPermissions": Array [],
+    "viewGroup": "serverless",
+    "viewUrl": "https://core-ui.testowy.hasselhoff.ga/lambdas",
+  },
+]
+`;
