@@ -2,32 +2,32 @@ const { default: convertToNavigationTree } = require("./microfrontend-converter"
 
 describe('microfrontend-converter', () => {
     it('is backwards compatible', () => {
-        expect(convertToNavigationTree('serverless', {
+        expect(convertToNavigationTree('serverless', Object.freeze({
             "name": "serverless",
             "category": "Development",
             "viewBaseUrl": "https://core-ui.testowy.hasselhoff.ga",
-            "preloadUrl": "",
+            "preloadUrl": "https://aaa.com",
             "placement": "namespace",
-            "navigationNodes": [
-              {
+            "navigationNodes": Object.freeze([
+              Object.freeze({
                 "label": "Functions",
                 "navigationPath": "functions",
                 "viewUrl": "/lambdas",
                 "showInNavigation": true,
                 "order": 1,
-                "settings": {},
+                "settings": Object.freeze({}),
                 "externalLink": "",
-                "requiredPermissions": []
-              },
+                "requiredPermissions": Object.freeze([])
+              }),
               {
                 "label": "Functions",
                 "navigationPath": "functions/details",
                 "viewUrl": "/lambdas",
                 "showInNavigation": false,
                 "order": 0,
-                "settings": {},
+                "settings": Object.freeze({}),
                 "externalLink": "",
-                "requiredPermissions": []
+                "requiredPermissions": Object.freeze([])
               },
               {
                 "label": "Function Details",
@@ -35,12 +35,12 @@ describe('microfrontend-converter', () => {
                 "viewUrl": "/lambda/:lambda",
                 "showInNavigation": false,
                 "order": 0,
-                "settings": {},
+                "settings": Object.freeze({}),
                 "externalLink": "",
-                "requiredPermissions": []
+                "requiredPermissions": Object.freeze([])
               }
-            ]
-          },{
+            ])
+          }),Object.freeze({
             "domain": "testowy.hasselhoff.ga",
             "localDomain": "console-dev.testowy.hasselhoff.ga",
             "serviceCatalogModuleUrl": "http://console-dev.testowy.hasselhoff.ga:8000",
@@ -72,50 +72,50 @@ describe('microfrontend-converter', () => {
             "gateway_kyma_cx_api_version": "v1alpha2",
             "defaultIdpIssuer": "https://dex.testowy.hasselhoff.ga",
             "orgId": "my-org-123"
-          },{
-            "viewGroupSettings": {
-              "_console_": {
+          }),Object.freeze({
+            "viewGroupSettings": Object.freeze({
+              "_console_": Object.freeze({
                 "preloadUrl": "/consoleapp.html#/home/preload"
-              },
-              "_core_ui_": {
+              }),
+              "_core_ui_": Object.freeze({
                 "preloadUrl": "http://console-dev.testowy.hasselhoff.ga:8889/preload"
-              },
-              "addonsclustermicrofrontend": {
+              }),
+              "addonsclustermicrofrontend": Object.freeze({
                 "preloadUrl": "http://console-dev.testowy.hasselhoff.ga:8004/preload"
-              },
-              "servicecatalogmicrofrontend": {
+              }),
+              "servicecatalogmicrofrontend": Object.freeze({
                 "preloadUrl": "http://console-dev.testowy.hasselhoff.ga:8000/preload"
-              },
-              "addonsmicrofrontend": {
+              }),
+              "addonsmicrofrontend": Object.freeze({
                 "preloadUrl": "http://console-dev.testowy.hasselhoff.ga:8004/preload"
-              }
-            },
-            "contextSwitcher": {
+              })
+            }),
+            "contextSwitcher": Object.freeze({
               "defaultLabel": "Select Namespace ...",
               "parentNodePath": "/home/namespaces",
               "lazyloadOptions": true,
-              "actions": [
-                {
+              "actions": Object.freeze([
+                Object.freeze({
                   "label": "+ New Namespace",
                   "link": "/home/workspace?~showModal=true"
-                }
-              ]
-            },
-            "profile": {
-              "items": [
-                {
+                })
+              ])
+            }),
+            "profile": Object.freeze({
+              "items": Object.freeze([
+                Object.freeze({
                   "icon": "settings",
                   "label": "Preferences",
                   "link": "/home/preferences"
-                },
-                {
+                }),
+                Object.freeze({
                   "icon": "download",
                   "label": "Get Kubeconfig",
                   "link": "/home/download-kubeconfig"
-                }
-              ]
-            },
-            "nodes": {}
-          }, '_console_', 'cmf-', undefined)).toMatchSnapshot()
+                })
+              ])
+            }),
+            "nodes": Object.freeze({})
+          }), '_console_', 'cmf-', undefined)).toMatchSnapshot()
     })
 })
